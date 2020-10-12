@@ -1,7 +1,7 @@
-export default function calculate(formula) {
+function calculate(formula) {
     let chengchu = false;
     let jiajian = false;
-    if(formula.indexOf('*') > -1 || formula.indexOf('÷') > -1) {
+    if(formula.indexOf('×') > -1 || formula.indexOf('÷') > -1) {
         chengchu = true;
     }
     if(formula.indexOf('+') > -1 || formula.indexOf('-') > -1) {
@@ -32,8 +32,8 @@ export default function calculate(formula) {
 }
 
 
-let result = calculate('1÷6*8+4')
-console.log(result)
+module.exports = calculate;
+
 
 //乘除法
 function chengchuCalculate(formula) {
@@ -44,13 +44,13 @@ function chengchuCalculate(formula) {
     let result = parseInt(formula);
     while(formula.length > 0) {
         //先找出第一个运算符
-        symbol = formula.match(/\*|\÷/);
+        symbol = formula.match(/\×|\÷/);
         //拿到一个数字
         firstNum = formula.slice(0, symbol.index);
         //把第一个数组和第一个运算符从字符串中去掉
         formula = formula.slice(symbol.index + 1);
         //拿到第二个运算符
-        nextSymbol = formula.match(/\*|\÷/);
+        nextSymbol = formula.match(/\×|\÷/);
         //如果第二个运算符存在，则拿到第二个数字进行运算并继续循环
         if(nextSymbol) {
             secondNum = formula.slice(0, nextSymbol.index);
@@ -111,7 +111,7 @@ function simpleChengchuCalculate(symbol, firstNum, secondNum) {
         let secondSon = secondNum.slice(0, secondNum.indexOf('/')); //第二个数的分子
         let firstMum = firstNum.slice(firstNum.indexOf('/') + 1);         //第一个数的分母
         let secondMum = secondNum.slice(secondNum.indexOf('/') + 1);    //第二个数的分母
-        if(symbol == '*') {
+        if(symbol == '×') {
             result = `${(firstSon * secondSon)}/${firstMum * secondMum}`;
         } else {
             result = `${firstSon * secondMum}/${firstMum * secondSon}`;
@@ -119,7 +119,7 @@ function simpleChengchuCalculate(symbol, firstNum, secondNum) {
     } else if(firstNum.indexOf('/') > -1) {     //只有第一位数是分数
         let firstSon = firstNum.slice(0, firstNum.indexOf('/'));    //第一个数的分子
         let firstMum = firstNum.slice(firstNum.indexOf('/') + 1);         //第一个数的分母
-        if(symbol == '*') {
+        if(symbol == '×') {
             let son = firstSon * secondNum;
             result = `${son}/${firstMum}`;
         } else {
@@ -129,7 +129,7 @@ function simpleChengchuCalculate(symbol, firstNum, secondNum) {
     } else if(secondNum.indexOf('/') > -1) {    //只有第二位数是分数
         let secondSon = secondNum.slice(0, secondNum.indexOf('/'));    //第二个数的分子
         let secondMum = secondNum.slice(secondNum.indexOf('/') + 1);         //第二个数的分母
-        if(symbol == '*') {
+        if(symbol == '×') {
             let son = firstNum * secondSon;
             result = `${son}/${secondMum}`;
         } else {
@@ -137,7 +137,7 @@ function simpleChengchuCalculate(symbol, firstNum, secondNum) {
             result = `${son}/${secondSon}`;
         }
     } else {    //两位数都是整数
-        if(symbol == '*') {
+        if(symbol == '×') {
             result = firstNum * secondNum;
         } else {
             result = `${firstNum}/${secondNum}`
