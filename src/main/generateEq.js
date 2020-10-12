@@ -13,7 +13,6 @@ function generate(n, r) {
   for (let i = 0; i < n; i++) {
     let expression = ifLogical(r, exercises); //判断表达式是否符合逻辑 如果符合逻辑，就返回一个表达式
     let showExpression = expression.replace(/\//g, '÷').replace(/\*/g, '×'); //将* /替换
-    // console.log(showExpression);
     let answer = eval(expression);
     showExercises.push({ key: i, expression: showExpression });
     exercises.push({ key: answer, expression });
@@ -48,6 +47,12 @@ function generateEq(r, opArr) {
       eqArr.push(opArr[i]);
       // console.log(eqArr);
       if (opArr[i] === '/') {
+        // console.log(eqArr);
+        // console.log(i, r);
+        // 如果除号前面的数字等于r-1 要重新生成 因为等于r-1的话没办法得到真分数
+        while (eqArr[2 * i] === r - 1) {
+          eqArr[2 * i] = getRandom(r);
+        }
         let rightNum = ifDevision(eqArr, i, r);
         eqArr.push(rightNum);
       }
@@ -109,7 +114,9 @@ function ifLogical(r, exercises) {
     operatorNum = getRandom(4);
   }
   let opArr = getOperators(operatorNum); // 得到运算符数组
+  console.log(opArr);
   let expression = generateEq(r, opArr);
+  console.log(expression);
   let flag = true;
   while (flag) {
     let answer = eval(expression);
