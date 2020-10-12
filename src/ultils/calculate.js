@@ -1,4 +1,5 @@
 function calculate(formula) {
+    formula = formula.replace(/\-\-/g, '+')
     let chengchu = false;
     let jiajian = false;
     if(formula.indexOf('×') > -1 || formula.indexOf('÷') > -1) {
@@ -12,7 +13,8 @@ function calculate(formula) {
         //轮流找加减号
         //每找到一个加减号切割成两个子公式
         //每个子公式递归得出结果
-        let symbol = formula.match(/\+|\-/);
+        let symbol = [...formula.matchAll(/\+|\-/g)];
+        symbol = symbol[symbol.length - 1]
         //拿到一个子公式
         let firstFormula = formula.slice(0, symbol.index);
         //拿到第二个子公式
@@ -67,6 +69,7 @@ function chengchuCalculate(formula) {
 
 //加减法
 function jiajianCalculate(formular) {
+    formular.replace(/\-\-/g, '+')
     let symbol = formular.match(/\+|\-/);
     let firstNum = formular.slice(0, symbol.index);
     let secondNum = formular.slice(symbol.index + 1);
