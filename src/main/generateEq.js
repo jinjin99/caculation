@@ -12,8 +12,9 @@ function generate(n, r) {
   let answers = [];
   for (let i = 0; i < n; i++) {
     let expression = ifLogical(r, exercises); //判断表达式是否符合逻辑 如果符合逻辑，就返回一个表达式
-    let showExpression = expression.replace(/\//g, '÷').replace(/\*/g, '×'); //将* /替换
-    let answer = eval(expression);
+    console.log(expression);
+    // let showExpression = expression.replace(/\//g, '÷').replace(/\*/g, '×'); //将* /替换
+    // let answer = eval(expression);
     showExercises.push({ key: i, expression: showExpression });
     exercises.push({ key: answer, expression });
     answers.push({ key: i, answer });
@@ -46,7 +47,7 @@ function generateEq(r, opArr) {
     for (let i = 0; i < opArr.length; i++) {
       eqArr.push(opArr[i]);
       // console.log(eqArr);
-      if (opArr[i] === '/') {
+      if (opArr[i] === '÷') {
         // console.log(eqArr);
         // console.log(i, r);
         // 如果除号前面的数字等于r-1 要重新生成 因为等于r-1的话没办法得到真分数

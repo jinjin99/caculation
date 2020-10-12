@@ -1,1 +1,1 @@
-module.exports.operators = ['+', '-', '*', '/'];
+module.exports.operators = ['+', '-', '÷', '×'];
