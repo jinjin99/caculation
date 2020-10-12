@@ -1,25 +1,25 @@
 let getRandom = require('../ultils/getRandom');
 const { operators } = require('../constant/constant');
 let fs = require('fs');
+let calculate = require('../ultils/calculate');
 /**
  * 生成等式
  * n:生成题目的条数
  * r:每个数值的范围
  */
 function generate(n, r) {
-  let showExercises = []; //写入txt文件里面的练习题
   let exercises = []; // 作为参数到计算结果的练习题
   let answers = [];
   for (let i = 0; i < n; i++) {
     let expression = ifLogical(r, exercises); //判断表达式是否符合逻辑 如果符合逻辑，就返回一个表达式
     console.log(expression);
-    // let showExpression = expression.replace(/\//g, '÷').replace(/\*/g, '×'); //将* /替换
-    // let answer = eval(expression);
-    showExercises.push({ key: i, expression: showExpression });
-    exercises.push({ key: answer, expression });
+    let answer = calculate(expression);
+    console.log(answer);
+    exercises.push({ key: i, expression });
     answers.push({ key: i, answer });
+    console.log('---------分割-----');
   }
-  fs.writeFileSync('exercises.txt', JSON.stringify(showExercises));
+  fs.writeFileSync('exercises.txt', JSON.stringify(exercises));
 }
 
 // 生成运算符数组
@@ -40,7 +40,7 @@ function generateEq(r, opArr) {
   let orginNum = getRandom(r);
   // console.log(opArr);
   if (opArr.length === 0) {
-    eqArr.push(orginNum);
+    return;
   } else {
     // let eqArr = [];
     eqArr.push(orginNum);
@@ -114,33 +114,40 @@ function ifLogical(r, exercises) {
   while (operatorNum === 0) {
     operatorNum = getRandom(4);
   }
+  // console.log(operatorNum);
   let opArr = getOperators(operatorNum); // 得到运算符数组
-  console.log(opArr);
+  // console.log(opArr);
   let expression = generateEq(r, opArr);
-  console.log(expression);
+  // console.log(expression);
+  // console.log(expression.replace(/\÷/g, '/').replace(/\×/g, '*'));
   let flag = true;
-  while (flag) {
-    let answer = eval(expression);
-    if (answer < 0 || isCommon(exercises, expression)) {
-      // if (answer < 0) {
-      let operatorNum = getRandom(4);
-      opArr = getOperators(operatorNum);
-      expression = generateEq(r, opArr);
-    } else {
-      flag = false;
-    }
-  }
+  // while (flag) {
+  //   let newExp = expression.replace(/\÷/g, '/').replace(/\×/g, '*');
+  //   let answer = eval(newExp);
+  //   // console.log(answer);
+  //   // console.log(newExp);
+  //   // let answer = calculate(expression);
+  //   // console.log(answer);
+  //   if (answer < 0 || isCommon(exercises, expression)) {
+  //     // if (answer < 0) {
+  //     let operatorNum = getRandom(4);
+  //     opArr = getOperators(operatorNum);
+  //     expression = generateEq(r, opArr);
+  //   } else {
+  //     flag = false;
+  //   }
+  // }
   return expression;
 }
 
 // 判断表达式是否相同
 function isCommon(exercises, expression) {
   // console.log(exercises, expression);
-  let answer = eval(expression);
+  let answer = calculate(expression);
   let res = false;
   exercises.forEach((exercise) => {
     let exp = exercise.expression;
-    let answer1 = eval(exp);
+    let answer1 = calculate(exp);
     if (answer1 === answer) {
       // console.log(exp);
       // 判断答案是否相同，如果相同，判断运算符号是否相同
