@@ -1,4 +1,4 @@
-function calculate(formula) {
+export default function calculate(formula) {
     let chengchu = false;
     let jiajian = false;
     if(formula.indexOf('*') > -1 || formula.indexOf('÷') > -1) {
